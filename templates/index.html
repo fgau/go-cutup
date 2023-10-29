@@ -1,0 +1,47 @@
+{{template "header.html" .}}
+<header>
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <h3>cutup randomizer</h3>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<main class="flex-shrink-0">
+  <div class="container">
+    <div class="row row-headline">
+      <div class="col col-lg-8 offset-lg-2">
+        <h3>description</h3>
+        <p>
+          the cutup randomizer based on these technique.<br />
+          <a href="https://en.wikipedia.org/wiki/Cut-up_technique">
+            https://en.wikipedia.org/wiki/Cut-up_technique
+          </a>
+        </p>
+      </div>
+    </div>
+    <div class="row row-form">
+      <div class="col col-lg-8 offset-lg-2">
+        <form>
+          <div class="row">
+            <div class="mb-3">
+
+              <label id="PayloadCutup" for="cutup" class="form-label">Text<sup>*</sup></label>
+              <textarea rows="8" type="text" class="form-control" id="cutup" aria-describedby="cutupHelp"></textarea>
+              <div id="cutupHelp" class="form-text"></div>
+
+            </div>
+          </div>
+          <p class="text-end"><sup>*</sup>required</p>
+          <button type="button" id="clickme" class="btn btn-primary btn-send">
+            ClickMe
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+{{template "footer.html" .}}
