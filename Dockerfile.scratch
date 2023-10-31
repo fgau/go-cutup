@@ -1,0 +1,43 @@
+# syntax=docker/dockerfile:1
+
+# `docker image ls` gets a size of 23.2MB,
+# inclusive the 10.8MB big golang executable, and all the static and template files
+FROM golang:1.21.3-bookworm as base
+
+# we are going to want to run this as a non-root user. Taking inspiration from
+# this StackOverflow link https://stackoverflow.com/a/55757473/12429735 for
+# our adduser command, we setup a non-root user
+RUN adduser \
+  --disabled-password \
+  --gecos "" \
+  --home "/nonexistent" \
+  --no-create-home \
+  --uid 65532 \
+  small-user
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+RUN go mod verify
+
+# copy the source code
+COPY . .
+
+# build
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./go-cutup
+
+FROM scratch
+
+COPY --from=base /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=base /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=base /etc/passwd /etc/passwd
+COPY --from=base /etc/group /etc/group
+
+# copy the source code a second time
+COPY --from=base /app/. .
+
+USER small-user:small-user
+
+CMD ["./go-cutup"]
+
