@@ -2,6 +2,18 @@
 
 this little app implement the cut-up technique, described [here](https://en.wikipedia.org/wiki/Cut-up_technique).
 
+## makefile
+
+```
+make build
+```
+
+or
+
+```
+make run
+```
+
 ## docker
 
 build with the Dockerfile.scratch
